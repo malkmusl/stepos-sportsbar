@@ -1,0 +1,45 @@
+/* src/components/LicenseAgreement.css */
+
+.license-agreement {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: rgba(55, 65, 81, 0.5); /* gray-800 with 50% opacity */
+    border: 1px solid rgba(75, 85, 99, 1); /* gray-700 */
+    border-radius: 8px; /* Rounded corners */
+  }
+  
+  h2 {
+    font-size: 2rem; /* Size for h2 */
+    color: #f9fafb; /* Light text for headings */
+    text-align: center; /* Center text */
+  }
+  
+  h3 {
+    font-size: 1.75rem; /* Size for h3 */
+    color: #f9fafb; /* Light text for headings */
+    text-align: center; /* Center text */
+  }
+  
+  h4 {
+    font-size: 1.5rem; /* Size for h4 */
+    color: #f9fafb; /* Light text for headings */
+    text-align: center; /* Center text */
+  }
+  
+  h5 {
+    font-size: 1.25rem; /* Size for h5 */
+    color: #f9fafb; /* Light text for headings */
+    text-align: center; /* Center text */
+  }
+  
+  p {
+    margin: 10px 0; /* Spacing between paragraphs */
+  }
+  
+  ul, ol {
+    margin-left: 20px; /* Indentation for lists */
+  }
+  

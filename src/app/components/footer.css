@@ -1,0 +1,28 @@
+.separator {
+    margin: 0; /* Ensure no margin around the first separator */
+  }
+  
+  .second-separator {
+    margin-top: -80px; /* Adjust this value to bring it closer to the images */
+  }
+  
+  .image-container {
+    position: relative; /* Position relative for absolute positioning of Image */
+    width: 150px;      /* Set desired width */
+    height: 100px;     /* Set desired height */
+    overflow: hidden;  /* Hide overflow if aspect ratio doesn't match */
+  }
+  
+  .copyright,
+  .author {
+    margin-top: 5px; /* Adjust as needed to bring the text closer */
+  }
+  
+  .copyright-link {
+    color: inherit; /* Inherit the link color from parent *//* Underline the link */
+  }
+  
+  .text-center {
+    text-align: center; /* Center text alignment */
+  }
+  
