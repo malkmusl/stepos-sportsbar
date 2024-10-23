@@ -1,101 +1,81 @@
-import Image from "next/image";
+"use client"; // Make this a client component
 
-export default function Home() {
+import { useEffect, useState } from "react"; // Import state and effect hooks
+import HomePage from "./pages/home/page";
+import MenuPage from "./pages/menu/page";
+import LocationPage from "./pages/location/page";
+import ContactPage from "./pages/contact/page";
+import { useRouter } from "next/navigation"; // Import useRouter
+import LicensePage from "./pages/license/page";
+
+export default function Page() {
+  const router = useRouter(); // Initialize the router
+  const [currentPage, setCurrentPage] = useState(<HomePage />); // State to store the current page content
+  const [currentLanguage, setCurrentLanguage] = useState("de"); // State to store the current language
+
+  useEffect(() => {
+    // Load the language from localStorage on component mount
+    const storedLanguage = localStorage.getItem("lang") || "de"; // Default to English if no language is stored
+    setCurrentLanguage(storedLanguage);
+
+    // Check if the current URL has the lang parameter
+    const currentPath = window.location.pathname;
+    const currentHash = window.location.hash;
+    const currentSearch = new URLSearchParams(window.location.search);
+
+    // If the lang parameter is missing, set it to the stored language
+    if (!currentSearch.has("lang")) {
+      currentSearch.set("lang", storedLanguage);
+      const newUrl = `${currentPath}?${currentSearch.toString()}${currentHash}`;
+      router.replace(newUrl); // Replace the URL in the browser
+    } else {
+      // Update the language state if lang parameter is present
+      const langParam = currentSearch.get("lang");
+      setCurrentLanguage(langParam);
+    }
+
+    // Update the page based on the current hash on initial load
+    handleHashChange(currentHash);
+  }, []); // Runs only on mount
+
+  useEffect(() => {
+    // Save the current language to localStorage whenever it changes
+    localStorage.setItem("lang", currentLanguage);
+  }, [currentLanguage]); // Runs whenever currentLanguage changes
+
+  const handleHashChange = (hash: string) => {
+    if (hash === "#menu") {
+      setCurrentPage(<MenuPage />);
+    } else if (hash === "#location") {
+      setCurrentPage(<LocationPage />);
+    } else if (hash === "#contact") {
+      setCurrentPage(<ContactPage />);
+    } else if (hash === "#license") {
+      setCurrentPage(<LicensePage />);
+    } else {
+      setCurrentPage(<HomePage />); // Default to HomePage if no hash or unrecognized hash
+    }
+  };
+
+  useEffect(() => {
+    // Listen for hash changes
+    const handleHashChangeListener = () => {
+      handleHashChange(window.location.hash);
+    };
+
+    window.addEventListener("hashchange", handleHashChangeListener);
+
+    // Cleanup the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener("hashchange", handleHashChangeListener);
+    };
+  }, []); // Empty dependency array ensures this only runs on mount/unmount
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+    <div>
+      <div>
+        {currentPage}
+      </div>
     </div>
   );
 }
